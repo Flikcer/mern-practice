@@ -8,9 +8,11 @@ import {
 } from "../controllers/userController.js";
 const router = express.Router();
 
+import { protect } from "../middleware/authMiddleware.js";
+
 router.post("/", registerUser);
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
-router.route("/profile").get(getUser).put(updateUser);
+router.route("/profile").get(protect, getUser).put(protect, updateUser);
 
 export default router;
