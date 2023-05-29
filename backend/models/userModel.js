@@ -20,6 +20,11 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+// Match user entered password to hashed password in database
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 //cant use arrow as callback func since we need to use this to access user and arrow implicitly has no scope access to this
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
